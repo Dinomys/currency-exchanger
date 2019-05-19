@@ -1,0 +1,59 @@
+<Html>
+<head>
+    <title>Currency exchanger</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<br>
+<form>
+    <div class="container">
+    <div class="row">
+        <div class="col">
+            <input type="number" class="form-control" placeholder="Podaj kwotę w PLN" id="inputValue">
+        </div>
+        <div class="col">
+            <input type="date" class="form-control" placeholder="Podaj datę" id="inputDate">
+        </div>
+        <fieldset disabled>
+        <div class="col">
+            <input type="number" class="form-control" placeholder="Wartość w walucie" id="outputValue">
+        </div>
+        </fieldset>
+    </div>
+        <br>
+    <div class="row">
+        <button type="button" class="btn btn-outline-secondary" id="submitEuro">Przelicz na EUR</button>
+    </div>
+    </div>
+</form>
+</body>
+</Html>
+
+<script>
+    $('#submitEuro').click(function (){
+        var enteredDate = $('#inputDate').val();
+        var enteredPLN = $('#inputValue').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/exchange/' + enteredPLN + '/' + enteredDate,
+            headers: {
+                'Accept': 'application/json'
+            },
+            success: function (result){
+                $('#outputValue').val(result.euro)
+            },
+            error: function (result){
+                alert(result.responseJSON.message)
+            }
+        });
+    });
+</script>
